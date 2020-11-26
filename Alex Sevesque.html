@@ -17,18 +17,23 @@
             <h1 class="display-4" v-if="commandes.length > 0" > Produits commandés</h1>
             <div class="row">
                 <fiche-produit v-for="commande in commandes" v-bind:nom="commande" role="recap"></fiche-produit> 
+                
             </div>
-
-
+           
+            </div>
+                <div class="row">
+                    <p class="jumbotron" >
+                        Total: <span>{{total}}€</span>
+                    </p>
             <h1 v-bind:class="affichage" >Produits disponibles</h1> 
             <div class="row">
                 <fiche-produit v-for="produit in produits" v-bind:nom="produit" v-on:commande_passee="commander" role="commande"></fiche-produit>
-                <div class="col-3" v-for="(produit, prices, monnaie) in produits, price, monnaies" >
+                <div class="col-3" v-for="produit in produits" >
                     <p class="jumbotron" >
-                        {{produit}}
+                        {{produit.nom}} <br>
+                         {{produit.price}}€
                         <br>
-                        {{price}}
-                        {{monnaie}}
+
                         <button v-on:click="commander(produit)">Commander</button>
                     </p>
                 </div>
@@ -58,9 +63,15 @@
             el: "#app",
             data: {
                 user: "Alex",
-                produits: ["Hamburger","Cheeseburger", "Big Mac", "Frite"],
-                prices: ["2","3", "4","1"],
-                monnaies: ["€"],
+                produits: [
+                    {nom: "Hamburger",
+                    price: 2},
+                    {nom: "cheeseburger",
+                    price: 3},
+                    {nom: "Big mac",
+                    price: 4},
+                    {nom: "frite",
+                    price: 1}],
                 commandes: [],
                 affichage: "display-4"
             },
@@ -69,6 +80,18 @@
                 commander: function(produit){
                     this.commandes.push(produit);
                     
+                },
+                total: function(){
+
+                    var total = 0;
+
+                    this.produits.forEach(function(s){
+                        if (s.active){
+                            total+= p.price;
+                        }
+                    });
+
+                    return total;
                 }
             }
         })
