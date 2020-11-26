@@ -23,12 +23,12 @@
             <h1 v-bind:class="affichage" >Produits disponibles</h1> 
             <div class="row">
                 <fiche-produit v-for="produit in produits" v-bind:nom="produit" v-on:commande_passee="commander" role="commande"></fiche-produit>
-                <div class="col-3" v-for="produit in produits" v-for="price in prices" v-for="monnaie in monnaies">
-                    <p class="jumbotron">
+                <div class="col-3" v-for="(produit, prices, monnaie) in produits, price, monnaies" >
+                    <p class="jumbotron" >
                         {{produit}}
                         <br>
-                        {{prices}}
-                        {{monnaies}}
+                        {{price}}
+                        {{monnaie}}
                         <button v-on:click="commander(produit)">Commander</button>
                     </p>
                 </div>
